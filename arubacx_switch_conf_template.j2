@@ -1,0 +1,27 @@
+!
+{% for int_name in sw_ports %}
+{% if loop.index0 < loop.length - 6 %}
+interface {{ int_name }}
+ vlan port access 1
+ spanning-tree bpdu-guard
+ spanning-tree rpvst-guard
+ spanning-tree port-type admin-edge
+{% endif %}
+{% if loop.index0 >= loop.length - 6 %}
+interface {{ int_name }}
+ vlan trunk native 1
+ vlan trunk allowed all
+{% endif %}
+{% endfor %}
+!
+spanning-tree
+!
+vlan 2
+ name test2
+vlan 3
+ name test3
+!
+interface vlan1
+ shutdown
+ no ip dhcp
+!
